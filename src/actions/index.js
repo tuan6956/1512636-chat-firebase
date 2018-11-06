@@ -1,6 +1,7 @@
 import {
     SET_RECEIVE,
-    SET_SIGNIN
+    SET_SIGNIN,
+    STORE_MESSAGE_SEND
 } from '../constants/ActionType'
 
 export const setReceive = (uid, name, avatar, statusConnection, statusIcon) => ({
@@ -15,4 +16,9 @@ export const setReceive = (uid, name, avatar, statusConnection, statusIcon) => (
 export const setSignin = (isSignId) => ({
     type: SET_SIGNIN,
     isSignId: isSignId
+});
+
+export const storeMessageSend = (text) => ({
+    type: STORE_MESSAGE_SEND,
+    text: text
 });

@@ -5,6 +5,8 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
 import { setReceive } from '../actions'
+import ScrollBotton from '../component/scrollboton'
+
 var dateFormat = require('dateformat');
 
 class ChatHistory extends Component {
@@ -27,13 +29,13 @@ class ChatHistory extends Component {
         var diff = today.getTime() - compDate.getTime(); // get the difference between today(at 00:00:00) and the date
         if (compDate.getTime() == today.getTime()) {
             return time + ", Today";
-        } else if (diff <= (24 * 60 * 60 *1000)) {
+        } else if (diff <= (24 * 60 * 60 * 1000)) {
             return time + ", Yesterday";
-        } else { 
-            return time + ", " +compDate.toDateString(); // or format it what ever way you want
+        } else {
+            return time + ", " + compDate.toDateString(); // or format it what ever way you want
         }
     }
-    
+
     render() {
         if (!isLoaded(this.props.chats)) {
             return <div>Loading...</div>
@@ -44,37 +46,42 @@ class ChatHistory extends Component {
         const myUid = this.props.auth.uid;
         const yourUid = this.props.receiver.uid;
         //const yourUid = "50MhRSueCyQLOG5egmiXCpIOxVH3";
+        console.log(myUid);
         
         var chatTemp = this.props.chats[myUid + yourUid];
-        if(!chatTemp) {
+        if (!chatTemp) {
             chatTemp = this.props.chats[yourUid + myUid];
             if (!chatTemp) {
                 return null;
             }
         }
         var chats = Object.keys(chatTemp).map(function (key) { return chatTemp[key]; });
-        chats.sort((a, b) => {return a.createAt - b.createAt});
-        console.log(this.props.receiver);
-        
+        chats.sort((a, b) => { return a.createAt - b.createAt });
+        // console.log(this.props.receiver);
+
         const listChat = chats.map(chat => {
-        
-            if(chat.from === myUid) {
-                return (<ChatSend 
-                            key={chat.createAt} name={this.props.auth.displayName} message={chat.message} time={this.getDisplayDate(chat.createAt)}> 
-                        </ChatSend>
-                        )
+
+            if (chat.from === myUid) {
+                return (
+                    <ChatSend
+                        key={chat.createAt} name={this.props.auth.displayName} message={chat.message} time={this.getDisplayDate(chat.createAt)}>
+                    </ChatSend>
+                )
             } else {
-                return (<ChatReceive 
-                            key={chat.createAt} name={this.props.receiver.name} message={chat.message} time={this.getDisplayDate(chat.createAt)}> 
-                        </ChatReceive>
+                return (
+                    <ChatReceive
+                        key={chat.createAt} name={this.props.receiver.name} message={chat.message} time={this.getDisplayDate(chat.createAt)}>
+                    </ChatReceive>
                 )
             }
         });
+
         return (
             <div class="chat-history">
                 <ul>
                     {listChat}
                 </ul>
+                <ScrollBotton />
             </div>
         );
     }
@@ -83,10 +90,10 @@ class ChatHistory extends Component {
 
 export default compose(
     firebaseConnect((props) => [
-        { path:'/chats'}, 
-    ]), 
+        { path: '/chats' },
+    ]),
     connect((
-        { firebase: { auth, ordered, data }, 
-        SetReceive:{uid, name, avatar, statusConnection, statusIcon} }
-    ) => ({ auth, chats: data.chats, receiver: {uid, name, statusConnection, avatar, statusIcon} }))
+        { firebase: { auth, ordered, data },
+            SetReceive: { uid, name, avatar, statusConnection, statusIcon } }
+    ) => ({ auth, chats: data.chats, receiver: { uid, name, statusConnection, avatar, statusIcon } }))
 )(ChatHistory)

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ChatHistoryContainer from '../../container/ChatHistoryContainer';
 import ChatInput from './chat-input';
 import ChatHeader from './chat-header';
+import ChatSendContainer from '../../container/ChatSendContainer';
 
 class ChatBox extends Component {
     render() {
@@ -17,7 +18,7 @@ class ChatBox extends Component {
                             <ChatHeader name={receiver.name} status={receiver.statusConnection} 
                                         avatar={receiver.avatar} statusIcon={receiver.statusIcon}/>
                             <ChatHistoryContainer />
-                            <ChatInput />
+                            <ChatSendContainer />
                 </div>
             );
         }

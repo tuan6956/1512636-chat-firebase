@@ -3,14 +3,12 @@ import React, { Component } from 'react';
 import { withFirebase } from 'react-redux-firebase'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
 import PeopleListContainer from './PeopleListContainer'
 import Menu from '../component/Menu/menu'
 import Firebase from 'firebase'
 import { setSignin } from '../actions'
 
 import LoginContainer from './LoginContainer'
-import ChatHistoryContainer from './ChatHistoryContainer';
 import ChatBox from '../component/chat/chat-box';
 
 class HomeContainer extends Component {
