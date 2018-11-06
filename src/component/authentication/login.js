@@ -11,7 +11,7 @@ import ChatInput from '../chat/chat-input'
 import ChatReceive from '../chat/chat-receive'
 import ChatSend from '../chat/chat-send'
 import Menu from '../Menu/menu'
-
+import Firebase from 'firebase'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
 
 // const configFirebase = {
@@ -22,7 +22,8 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
 
 class Login extends Component {
     state = {
-        isSignedIn: false
+        isSignedIn: false,
+        uid: ''
     };
     uiConfig = {
         signInFlow: 'popup',
@@ -35,48 +36,60 @@ class Login extends Component {
         }
     };
 
+
     componentDidMount() {
-        //console.log('123');
         let unregisterAuthObserver = this.props.firebase.auth().onAuthStateChanged(
             (user) => {
-                console.log("user:");
-                console.log(this.props.auth);
+                if (user) {
+                    const uid = user.uid;;
+                    var lastOnlineRef = this.props.firebase.database().ref('users/' + uid + '/lastOnline');
+                    var myConnectionsRef = this.props.firebase.database().ref('users/' + uid + '/connection');
+                    var connectedRef = this.props.firebase.database().ref('.info/connected');
+                    connectedRef.on('value', function (snap) {
+                        if (snap.val() === true) {
+                            var con = myConnectionsRef.set(true);
+                            //con.onDisconnect().remove();
+
+                            //  con.set(true);
+                            // When I disconnect, update the last time I was seen online
+                            lastOnlineRef.onDisconnect().set(Firebase.database.ServerValue.TIMESTAMP);
+                            myConnectionsRef.onDisconnect().set(false);
+                        }
+                    });
+                }
                 this.setState({ isSignedIn: !!user })
             }
         );
     }
 
-    // componentWillUpdate() {
-    //     if(!this.state.isSignedIn) {
-    //         this.props.firebase.
-    //     }
-    // }
-
     componentWillUnmount() {
         this.unregisterAuthObserver();
     }
     handleLogout = () => {
+        const uid = this.props.auth.uid;;
+        var lastOnlineRef = this.props.firebase.database().ref('users/' + uid + '/lastOnline');
+        var myConnectionsRef = this.props.firebase.database().ref('users/' + uid + '/connection');
+        var connectedRef = this.props.firebase.database().ref('.info/connected');
+        var con = myConnectionsRef.set(false);
+        lastOnlineRef.set(Firebase.database.ServerValue.TIMESTAMP);
         this.props.firebase.logout();
     };
     render() {
-        //console.log("users: " + this.props.users);
-        //console.log(this.props.firebase.auth());
 
         if (!this.state.isSignedIn) {
-            //console.log(this.props.firebase)
             return (
                 <div className="App-header">
                     <h1>Chat App</h1>
                     <button // <GoogleButton/> button can be used instead
-                onClick={() => this.props.firebase.login({ provider: 'google', type: 'popup' })}
-            >Login With Google</button>                </div>
+                        onClick={() => this.props.firebase.login({ provider: 'google', type: 'popup' })}
+                    >Login With Google</button>                </div>
             );
         }
         return (
 
             <div className="container clearfix">
-            {/* <button onClick={() => this.props.firebase.logout()}>Sign-out</button > */}
-                <Menu logout={this.handleLogout} avatar={this.props.profile.avatarUrl}/>
+                {/* <button onClick={() => this.props.firebase.logout()}>Sign-out</button > */}
+                <Menu logout={this.handleLogout} avatar={this.props.profile.avatarUrl} />
                 <PeopleList />
                 <div class="chat">
                     <ChatHeader />

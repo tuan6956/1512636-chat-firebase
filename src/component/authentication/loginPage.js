@@ -6,6 +6,7 @@ import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase'
 // import GoogleButton from 'react-google-button' // optional
 
 export const LoginPage = ({ firebase, auth }) => {
+    
     console.log(firebase);
     return (
         <div>

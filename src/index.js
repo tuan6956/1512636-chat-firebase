@@ -13,7 +13,7 @@ firebase.initializeApp(config.firebaseConfig);
 const rrfConfig = {
     userProfile: 'users',
     presence: 'presence',
-    sessions: 'sessions'
+    // sessions: 'sessions'
 }
 
 const createStoreWithFirebase = compose(

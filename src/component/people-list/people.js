@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 class People extends Component {
     render() {
         return (
-            <li class="clearfix">
+            <li className="clearfix">
                 <img src={this.props.image} alt="avatar"/>
-                <div class="about">
-                    <div class="name">{this.props.name}</div>
-                    <div class="status">
-                        <i class="fa fa-circle online"></i> {"online"}
+                <div className="about">
+                    <div className="name">{this.props.name}</div>
+                    <div className="status">
+                        <i className={"fa fa-circle " + this.props.statusIcon}></i> {this.props.statusText}
                     </div>
                 </div>
             </li>
