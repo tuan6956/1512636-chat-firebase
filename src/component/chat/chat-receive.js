@@ -5,11 +5,11 @@ class ChatReceive extends Component {
         return (
             <li>
                 <div class="message-data">
-                    <span class="message-data-name"><i class="fa fa-circle online"></i> {"Vincent"}</span>
-                    <span class="message-data-time">{"10:12 AM, Today"}</span>
+                    <span class="message-data-name"><i class="fa fa-circle online"></i> {this.props.name}</span>
+                    <span class="message-data-time">{this.props.time}</span>
                 </div>
                 <div class="message my-message">
-                    {"Are we meeting today? Project has been already finished and I have results to show you."}
+                    {this.props.message}
                 </div>
             </li>
         );

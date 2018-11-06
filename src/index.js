@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import rootReducer from './reducer'
+import rootReducer from './reducers'
 import { Provider } from 'react-redux'
 import { createStore, compose } from 'redux'
 import { reactReduxFirebase } from 'react-redux-firebase'

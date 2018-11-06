@@ -3,14 +3,13 @@ import logo from './logo.svg';
 import './App.css';
 import './chat.css';
 
-import Login from './component/authentication/login'
-import LoginPage from './component/authentication/loginPage'
+import HomeContainer from './container/HomeContainer';
 
 
 class App extends Component {
   render() {
     return (
-      <Login />
+      <HomeContainer />
       // <div className="App">
       //   <header className="App-header">
       //     <Login />

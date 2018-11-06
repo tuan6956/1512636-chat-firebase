@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 
 class People extends Component {
+
     render() {
+        
         return (
-            <li className="clearfix">
+            <li className="clearfix" onClick={this.props.onItemClick}>
                 <img src={this.props.image} alt="avatar"/>
                 <div className="about">
                     <div className="name">{this.props.name}</div>
