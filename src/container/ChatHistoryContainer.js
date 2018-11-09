@@ -23,7 +23,7 @@ class ChatHistory extends Component {
         compDate.setSeconds(0);
         compDate.setMilliseconds(0);
         var date2 = new Date(timestamp);
-        var time = dateFormat(date2, "h:MM:ss TT");
+        var time = dateFormat(date2, "H:MM:ss");
 
         // month - 1 because January == 0
         var diff = today.getTime() - compDate.getTime(); // get the difference between today(at 00:00:00) and the date
@@ -32,7 +32,8 @@ class ChatHistory extends Component {
         } else if (diff <= (24 * 60 * 60 * 1000)) {
             return time + ", Yesterday";
         } else {
-            return time + ", " + compDate.toDateString(); // or format it what ever way you want
+            time = dateFormat(date2, "H:MM:ss, mmm dd yyyy");
+            return time ; // or format it what ever way you want
         }
     }
 

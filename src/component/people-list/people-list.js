@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import Search from './search'
+import Search from '../../container/SearchPeopleContainer'
+import SearchPeopleContainer from '../../container/SearchPeopleContainer';
 class PeopleList extends Component {
     render() {
         return (
             <div class="people-list" id="people-list">
-                <Search />
+                <SearchPeopleContainer />
                 <ul class="list">
                     { this.props.listPeople }
                 </ul>

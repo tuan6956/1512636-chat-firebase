@@ -5,6 +5,8 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import PeopleListContainer from './PeopleListContainer'
 import Menu from '../component/Menu/menu'
+import Search from '../container/SearchPeopleContainer'
+
 import Firebase from 'firebase'
 import { setSignin } from '../actions'
 
@@ -55,6 +57,8 @@ class HomeContainer extends Component {
                 <div className="container clearfix">
                     {/* <button onClick={() => this.props.firebase.logout()}>Sign-out</button > */}
                     <Menu logout={this.handleLogout} avatar={this.props.profile.avatarUrl} />
+                    {/* <Search /> */}
+
                     <PeopleListContainer />
                     <ChatBox receiver={this.props.receiver}/>
                 </div>
@@ -71,7 +75,11 @@ const mapDispatchToProps = dispatch => {
 }
 export default compose(
     withFirebase,
-    connect(({firebase: { auth, profile }, SetAuthentication: {isSignId}, SetReceive:{uid, name, avatar, statusConnection, statusIcon} }) => ({
-        auth, profile, isSignId, receiver: {uid, name, statusConnection, avatar, statusIcon}
+    connect(({ 
+        firebase: { auth, profile }, 
+        SetAuthentication: {isSignId}, 
+        SetReceive: {uid, name, avatar, statusConnection, statusIcon},
+        SetListPeople: {filter} }) => ({
+            auth, profile, isSignId, receiver: {uid, name, statusConnection, avatar, statusIcon}, filter: filter
     }), mapDispatchToProps)
 )(HomeContainer)

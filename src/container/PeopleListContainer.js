@@ -42,7 +42,13 @@ class PeopleListContainer extends Component {
                 arr.push(user);
             }
         });
-        console.log(arr);
+        if(this.props.filter) {
+            const filter = this.props.filter;
+            arr = arr.filter(function(item){
+                return item.value.displayName.toLowerCase().search(
+                  filter.toLowerCase()) !== -1;
+            });
+        }
         const listPeople = arr.map(user => {
             var statusIcon = 'online';
             var statusText = 'online'
@@ -83,5 +89,7 @@ export default compose(
     firebaseConnect((props) => [
         { path: '/users' }, 
     ]), 
-    connect(({ firebase: { auth, ordered, data } }) => ({ auth, users: ordered.users, userTemp: data.users }), mapDispatchToProps)
+    connect(({ 
+            firebase: { auth, ordered, data },SetListPeople: {filter}  
+        }) => ({ auth, users: ordered.users, userTemp: data.users, filter: filter }), mapDispatchToProps)
 )(PeopleListContainer)

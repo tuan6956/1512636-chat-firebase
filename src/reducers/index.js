@@ -3,6 +3,8 @@ import { firebaseReducer as firebase } from 'react-redux-firebase'
 import SetReceive from './SetReceive'
 import SetAuthentication from './SetAuthentication'
 import StoreMessageSend from './SetChatInput'
+import SetListPeople from './SetListPeople'
+
 
 
 const rootReducer = combineReducers({
@@ -10,6 +12,7 @@ const rootReducer = combineReducers({
   SetReceive,
   SetAuthentication,
   StoreMessageSend,
+  SetListPeople,
 })
 
 export default rootReducer
