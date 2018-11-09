@@ -20,8 +20,30 @@ class PeopleListContainer extends Component {
         if (isEmpty(this.props.users)) {
             return <div>Users List Is Empty</div>
         }
+        var myUser = this.props.userTemp[this.props.auth.uid];
+        var lastUserActive = (myUser.lastUserActive); 
+        var arr = [];
+
+        if(lastUserActive) {
+            var lastUserActive = Object.keys(lastUserActive).map(function (key) { return {"uid": key,"time": lastUserActive[key]}; });
+            lastUserActive.sort((a, b) => { return b.createAt - a.createAt });
+            
+            lastUserActive.map( user => {
+                arr.push({key: user.uid, value: this.props.userTemp[user.uid]});
+            })
+        }
         
-        const listPeople = this.props.users.map(user => {
+
+        this.props.users.map(user => {
+            
+            if(myUser.lastUserActive && !myUser.lastUserActive[user.key] && user.key !== this.props.auth.uid) {
+                arr.push(user);
+            } else if (!myUser.lastUserActive) {
+                arr.push(user);
+            }
+        });
+        console.log(arr);
+        const listPeople = arr.map(user => {
             var statusIcon = 'online';
             var statusText = 'online'
             var online = user.value.connection;
@@ -54,12 +76,12 @@ class PeopleListContainer extends Component {
 }
 const mapDispatchToProps = dispatch => {
     return({
-        doSetReceive: (uid, name,avatar, statusConnected, statusIcon) => dispatch(setReceive(uid, name, avatar, statusConnected, statusIcon))
+        doSetReceive: (uid, name, avatar, statusConnected, statusIcon) => dispatch(setReceive(uid, name, avatar, statusConnected, statusIcon))
     })
 }
 export default compose(
     firebaseConnect((props) => [
         { path: '/users' }, 
     ]), 
-    connect(({ firebase: { auth, ordered, data } }) => ({ auth, users: ordered.users }), mapDispatchToProps)
+    connect(({ firebase: { auth, ordered, data } }) => ({ auth, users: ordered.users, userTemp: data.users }), mapDispatchToProps)
 )(PeopleListContainer)

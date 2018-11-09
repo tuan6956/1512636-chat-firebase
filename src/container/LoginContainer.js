@@ -6,10 +6,6 @@ import { connect } from 'react-redux'
 import Firebase from 'firebase'
  
 class LoginContainer extends Component {
-    
-
-
-    
 
     render() {
             return (
@@ -25,10 +21,9 @@ class LoginContainer extends Component {
     }
 }
 
-
 export default compose(
     withFirebase,
-    connect(({firebase: { auth, profile }, SetAuthentication }) => ({
-        auth, profile, SetAuthentication
+    connect(({firebase: { auth, profile } }) => ({
+        auth, profile
     }))
 )(LoginContainer)

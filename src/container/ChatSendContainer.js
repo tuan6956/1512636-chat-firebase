@@ -19,15 +19,30 @@ class ChatHistory extends Component {
         if (!chatTemp) {
             key = to + from;
         }
+
         var chatRef = this.props.firebase.database().ref('chats/' + key);
+        var timeNow = new Date().getTime();
         var data = {
             from: from,
             to: to,
             message: this.props.messageSend,
-            createAt: new Date().getTime()
+            createAt: timeNow
         }
         this.props.doStoreMessage('');
         chatRef.push(data);
+        var lastUserActive = this.props.firebase.database().ref('users/' + from + '/lastUserActive');
+        var lastUserToActive = this.props.firebase.database().ref('users/' + from + '/lastUserActive/' + to);
+        lastUserActive.child(to).remove();
+
+        lastUserToActive.set(timeNow);
+
+        lastUserActive = this.props.firebase.database().ref('users/' + to + '/lastUserActive');
+        var lastUserFromActive = this.props.firebase.database().ref('users/' + to + '/lastUserActive/' + from);
+        lastUserFromActive.child(from).remove();
+
+        lastUserFromActive.set(timeNow);
+
+
     };
     handleChange(e) {
         if (e.target.value !== this.props.messageSend) {
