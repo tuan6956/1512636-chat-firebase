@@ -11,6 +11,8 @@ var dateFormat = require('dateformat');
 
 class ChatHistory extends Component {
 
+    
+
     handleSendMessage() {
         var from = this.props.auth.uid;
         var to = this.props.receiver.uid;

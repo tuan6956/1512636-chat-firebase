@@ -4,7 +4,7 @@ class People extends Component {
 
     
     render() {
-        const star = this.props.star ? <i className="fa fa-star" style={{color: "gold"}}></i> : "";
+        const star = this.props.star ? <i className="fa fa-star star"></i> : "";
         
         return (
             <li className="clearfix" onClick={this.props.onItemClick}>
