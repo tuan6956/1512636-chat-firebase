@@ -30,16 +30,10 @@ class ChatHistory extends Component {
         }
         this.props.doStoreMessage('');
         chatRef.push(data);
-        var lastUserActive = this.props.firebase.database().ref('users/' + from + '/lastUserActive');
         var lastUserToActive = this.props.firebase.database().ref('users/' + from + '/lastUserActive/' + to);
-        lastUserActive.child(to).remove();
-
         lastUserToActive.set(timeNow);
 
-        lastUserActive = this.props.firebase.database().ref('users/' + to + '/lastUserActive');
         var lastUserFromActive = this.props.firebase.database().ref('users/' + to + '/lastUserActive/' + from);
-        lastUserFromActive.child(from).remove();
-
         lastUserFromActive.set(timeNow);
 
 
@@ -51,12 +45,12 @@ class ChatHistory extends Component {
     };
     render() {
         return (
-            <div class="chat-message clearfix">
+            <div className="chat-message clearfix">
                 <textarea onChange={this.handleChange.bind(this)} name="message-to-send" 
                             id="message-to-send" placeholder="Type your message" rows="3" 
                             value={this.props.messageSend}></textarea>
-                <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
-                <i class="fa fa-file-image-o"></i>
+                <i className="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
+                <i className="fa fa-file-image-o"></i>
                 <button onClick={this.handleSendMessage.bind(this)}>Send</button>
             </div>
         )

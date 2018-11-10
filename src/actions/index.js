@@ -2,16 +2,18 @@ import {
     SET_RECEIVE,
     SET_SIGNIN,
     STORE_MESSAGE_SEND,
-    SET_FILTER
+    SET_FILTER,
+    SET_STAR_PEOPLE
 } from '../constants/ActionType'
 
-export const setReceive = (uid, name, avatar, statusConnection, statusIcon) => ({
+export const setReceive = (uid, name, avatar, statusConnection, statusIcon, star) => ({
     type: SET_RECEIVE,
     uid: uid,
     name: name,
     avatar: avatar,
     statusConnection: statusConnection,
     statusIcon: statusIcon,
+    star: star
 });
 
 export const setSignin = (isSignId) => ({
@@ -27,4 +29,9 @@ export const storeMessageSend = (text) => ({
 export const setFilter = (filter) => ({
     type: SET_FILTER,
     filter: filter
+});
+
+export const setStarPeople = (isStar) => ({
+    type: SET_STAR_PEOPLE,
+    star: isStar
 });

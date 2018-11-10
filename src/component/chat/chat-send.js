@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 class ChatSend extends Component {
     render() {
         return (
-            <li class="clearfix">
-                <div class="message-data align-right">
-                    <span class="message-data-time" >{this.props.time}</span> &nbsp; &nbsp;
-                    <span class="message-data-name" >{this.props.name}</span> <i class="fa fa-circle me"></i>
+            <li className="clearfix">
+                <div className="message-data align-right">
+                    <span className="message-data-time" >{this.props.time}</span> &nbsp; &nbsp;
+                    <span className="message-data-name" >{this.props.name}</span> <i className="fa fa-circle me"></i>
                 </div>
-                <div class="message other-message float-right">
+                <div className="message other-message float-right">
                     {this.props.message}
                 </div>
             </li>

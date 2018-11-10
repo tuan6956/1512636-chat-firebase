@@ -4,11 +4,11 @@ class ChatReceive extends Component {
     render() {
         return (
             <li>
-                <div class="message-data">
-                    <span class="message-data-name"><i class="fa fa-circle online"></i> {this.props.name}</span>
-                    <span class="message-data-time">{this.props.time}</span>
+                <div className="message-data">
+                    <span className="message-data-name"><i className="fa fa-circle online"></i> {this.props.name}</span>
+                    <span className="message-data-time">{this.props.time}</span>
                 </div>
-                <div class="message my-message">
+                <div className="message my-message">
                     {this.props.message}
                 </div>
             </li>

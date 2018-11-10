@@ -4,9 +4,9 @@ import SearchPeopleContainer from '../../container/SearchPeopleContainer';
 class PeopleList extends Component {
     render() {
         return (
-            <div class="people-list" id="people-list">
+            <div className="people-list" id="people-list">
                 <SearchPeopleContainer />
-                <ul class="list">
+                <ul className="list">
                     { this.props.listPeople }
                 </ul>
             </div>

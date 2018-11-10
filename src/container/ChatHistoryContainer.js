@@ -47,7 +47,7 @@ class ChatHistory extends Component {
         const myUid = this.props.auth.uid;
         const yourUid = this.props.receiver.uid;
         //const yourUid = "50MhRSueCyQLOG5egmiXCpIOxVH3";
-        console.log(myUid);
+        //console.log(myUid);
         
         var chatTemp = this.props.chats[myUid + yourUid];
         if (!chatTemp) {
@@ -78,7 +78,7 @@ class ChatHistory extends Component {
         });
 
         return (
-            <div class="chat-history">
+            <div className="chat-history">
                 <ul>
                     {listChat}
                 </ul>

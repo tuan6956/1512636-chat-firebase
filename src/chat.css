@@ -58,6 +58,12 @@ body {
 .people-list .about {
   padding-left: 8px;
 }
+.people-list .fa-star {
+  float: right;
+  color: #D8DADF;
+  font-size: 20px;
+  margin-top: 12px;
+}
 .people-list .status {
   color: #92959E;
 }
@@ -98,6 +104,9 @@ body {
   color: #D8DADF;
   font-size: 20px;
   margin-top: 12px;
+}
+.star{
+  color: gold !important;
 }
 .chat .chat-history {
   padding: 30px 30px 20px;

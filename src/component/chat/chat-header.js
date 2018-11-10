@@ -10,9 +10,9 @@ class ChatHeader extends Component {
                     <div className="chat-with">{"Chat with " + this.props.name}</div>
                     
                     <div className="chat-num-messages">
-                    <i class={"fa fa-circle " + this.props.statusIcon}></i> {this.props.status}</div>
+                    <i className={"fa fa-circle " + this.props.statusIcon}></i> {this.props.status}</div>
                 </div>
-                <i className="fa fa-star"></i>
+                <i className={"fa fa-star " + (this.props.isStar ? "star" : "")} onClick={this.props.onClickStar}></i>
             </div>
         );
     }

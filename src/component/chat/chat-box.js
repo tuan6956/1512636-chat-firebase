@@ -16,7 +16,9 @@ class ChatBox extends Component {
             return (
                 <div className="chat">
                             <ChatHeader name={receiver.name} status={receiver.statusConnection} 
-                                        avatar={receiver.avatar} statusIcon={receiver.statusIcon}/>
+                                        avatar={receiver.avatar} statusIcon={receiver.statusIcon}
+                                        onClickStar={this.props.star}
+                                        isStar={receiver.star}/>
                             <ChatHistoryContainer />
                             <ChatSendContainer />
                 </div>
