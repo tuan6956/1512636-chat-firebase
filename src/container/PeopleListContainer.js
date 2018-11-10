@@ -23,16 +23,18 @@ class PeopleListContainer extends Component {
         var myUser = this.props.userTemp[this.props.auth.uid];
         var lastUserActive = (myUser.lastUserActive); 
         var arr = [];
-
+        
         if(lastUserActive) {
-            var lastUserActive = Object.keys(lastUserActive).map(function (key) { return {"uid": key,"time": lastUserActive[key]}; });
-            lastUserActive.sort((a, b) => { return b.createAt - a.createAt });
             
+        
+            var lastUserActive = Object.keys(lastUserActive).map(function (key) { return {"uid": key,"createAt": lastUserActive[key]}; });
+            lastUserActive.sort((a, b) => { return b.createAt - a.createAt });
+        
             lastUserActive.map( user => {
                 arr.push({key: user.uid, value: this.props.userTemp[user.uid]});
             })
         }
-        
+        //console.log(arr);
 
         this.props.users.map(user => {
             
@@ -42,6 +44,7 @@ class PeopleListContainer extends Component {
                 arr.push(user);
             }
         });
+
         if(this.props.filter) {
             const filter = this.props.filter;
             arr = arr.filter(function(item){
@@ -49,6 +52,7 @@ class PeopleListContainer extends Component {
                   filter.toLowerCase()) !== -1;
             });
         }
+        
         const listPeople = arr.map(user => {
             var statusIcon = 'online';
             var statusText = 'online'
