@@ -60,11 +60,8 @@ class HomeContainer extends Component {
         
         var starRef = this.props.firebase.database().ref('users/' + me + '/stars/' + receiveId);
         if(this.props.receiver.star) {
-            console.log("remove star");
             starRef.remove();
         } else {
-            console.log("add star");
-            
             starRef.set(timeNow);
         }
 
@@ -76,7 +73,6 @@ class HomeContainer extends Component {
                 <LoginContainer />
             );
         } else {
-            console.log(this.props.receiver);
             return (
                 <div className="container clearfix">
                     {/* <button onClick={() => this.props.firebase.logout()}>Sign-out</button > */}

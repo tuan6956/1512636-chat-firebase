@@ -146,8 +146,8 @@ body {
   margin-left: -10px;
 }
 .chat .chat-history .message img{
-  width: 200px;
-  height: 200px;
+  width: 300px;
+  height: 300px;
 }
 .chat .chat-history .my-message {
   background: #86BB71;
@@ -172,7 +172,9 @@ body {
   resize: none;
 }
 .chat .chat-message .fa-file-o, .chat .chat-message .fa-file-image-o {
-  font-size: 16px;
+  float: right;
+  padding-right: 10px;
+  font-size: 20px;
   color: gray;
   cursor: pointer;
 }

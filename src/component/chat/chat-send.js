@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 class ChatSend extends Component {
     render() {
         var message;
-        if (this.props.isImage) {
+        if (this.props.image) {
             message = (
                 <div className="message other-message float-right">
                     <p> <a href={this.props.message}> {this.props.message} </a> </p>
                     <br />
-                    <img src={this.props.message} />
+                    <img src={this.props.image} />
                 </div>
             )
         } else {
