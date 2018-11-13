@@ -39,7 +39,7 @@ class ChatHistory extends Component {
 
     render() {
         if (!isLoaded(this.props.chats)) {
-            return <div>Loading...</div>
+            return <div></div>
         }
         if (isEmpty(this.props.chats)) {
             return null;
@@ -59,7 +59,7 @@ class ChatHistory extends Component {
         var chats = Object.keys(chatTemp).map(function (key) { return chatTemp[key]; });
         chats.sort((a, b) => { return a.createAt - b.createAt });
         // console.log(this.props.receiver);
-        console.log(this.props.firebase);
+
         const listChat = chats.map(chat => {
             var message = chat.message.trim();
             var image = chat.imageUrl;

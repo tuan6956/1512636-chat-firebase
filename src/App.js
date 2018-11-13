@@ -4,12 +4,12 @@ import './App.css';
 import './chat.css';
 
 import HomeContainer from './container/HomeContainer';
-import Uploader from './component/chat/upload-file'
+
 
 class App extends Component {
   render() {
     return (
-      <Uploader />
+      <HomeContainer />
       // <div className="App">
       //   <header className="App-header">
       //     <Login />

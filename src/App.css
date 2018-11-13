@@ -18,6 +18,18 @@
   color: black;
 }
 
+.App-header h1{
+  font-size: 30px;
+  padding-bottom: 30px;
+}
+
+.App-header .login-btn{
+  background-color: #2196f3;
+}
+.App-header .login-btn:hover{
+  background-color: #1976d2;
+}
+
 .App-link {
   color: #61dafb;
 }

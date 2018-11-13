@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ChatHistoryContainer from '../../container/ChatHistoryContainer';
-import ChatInput from './chat-input';
 import ChatHeader from './chat-header';
 import ChatSendContainer from '../../container/ChatSendContainer';
 

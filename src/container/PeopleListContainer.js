@@ -19,7 +19,7 @@ class PeopleListContainer extends Component {
     render() {
 
         if (!isLoaded(this.props.users)) {
-            return <div>Loading...</div>
+            return <div className="loader"></div>
         }
         if (isEmpty(this.props.users)) {
             return null;
@@ -29,38 +29,18 @@ class PeopleListContainer extends Component {
         var starPeople = myUser.stars;
 
         var arr = [];
-
-        if (starPeople) {
-
-            var stars = Object.keys(starPeople).map(function (key) { return { "uid": key, "createAt": starPeople[key] }; });
-            stars.sort((a, b) => { return a.createAt - b.createAt });
-        
-            stars.map(user => {
-                arr.push({ key: user.uid, value: this.props.userTemp[user.uid] });
-            })
-        }
-        
-        if (lastUserActive) {
-            var arrLastUserActive = Object.keys(lastUserActive).map(function (key) { return { "uid": key, "createAt": lastUserActive[key] }; });
-            arrLastUserActive.sort((a, b) => { return b.createAt - a.createAt });
-        
-            arrLastUserActive.map(user => {
-                if (!starPeople || (starPeople && !starPeople[user.uid])){
-                    arr.push({ key: user.uid, value: this.props.userTemp[user.uid] });
-                }
-            })
-        }
         
         this.props.users.map(user => {
             if (user.key !== this.props.auth.uid) {
-                var pushArr = true;
+                user.star = 0;
+                user.lastMessage = 0;
                 if (lastUserActive && lastUserActive[user.key]) {
-                    pushArr = false;
-                } else if (starPeople && starPeople[user.key]) {
-                    pushArr = false;
-                } else {
-                    arr.push(user);
+                    user.lastMessage = lastUserActive[user.key];
                 }
+                if (starPeople && starPeople[user.key]) {
+                    user.star = 1;
+                }
+                arr.push(user);
             }
 
         });
@@ -73,6 +53,20 @@ class PeopleListContainer extends Component {
             });
         }
 
+
+        arr.sort((a, b) => {
+            var starCompare = b.star - a.star;
+            var lastMessageCompare = b.lastMessage - a.lastMessage;
+            var nameCompare = a.value.displayName > b.value.displayName ? 1 : (a.value.displayName === b.value.dispatch ? 0 : -1) 
+            
+            if(starCompare !== 0) {
+                return starCompare;
+            }
+            if(lastMessageCompare !== 0) {
+                return lastMessageCompare;
+            }
+            return nameCompare;
+        });       
         const listPeople = arr.map(user => {
             var statusIcon = 'online';
             var statusText = 'online'

@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 //import firebase from 'firebase';
-import { withFirebase } from 'react-redux-firebase'
+import { withFirebase, isEmpty, isLoaded } from 'react-redux-firebase'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import PeopleListContainer from './PeopleListContainer'
 import Menu from '../component/Menu/menu'
-import Search from '../container/SearchPeopleContainer'
 
 import Firebase from 'firebase'
-import { setSignin } from '../actions'
+import { setSignin, setStarPeople } from '../actions'
 
 import LoginContainer from './LoginContainer'
 import ChatBox from '../component/chat/chat-box';
@@ -39,6 +38,7 @@ class HomeContainer extends Component {
     componentWillUnmount() {
         this.unregisterAuthObserver();
     }
+
     handleLogout = () => {
         const uid = this.props.auth.uid;;
         var lastOnlineRef = this.props.firebase.database().ref('users/' + uid + '/lastOnline');
@@ -47,7 +47,30 @@ class HomeContainer extends Component {
         lastOnlineRef.set(Firebase.database.ServerValue.TIMESTAMP);
         this.props.firebase.logout();
     };
+
+    handleStarPeople = () => {
+
+        this.props.doSetStarPeople(!this.props.receiver.star);
+
+        var me = this.props.auth.uid;
+        var receiveId = this.props.receiver.uid;
+
+        var timeNow = new Date().getTime();
+        
+        var starRef = this.props.firebase.database().ref('users/' + me + '/stars/' + receiveId);
+        if(this.props.receiver.star) {
+            starRef.remove();
+        } else {
+            starRef.set(timeNow);
+        }
+
+    }
+
+
     render() {
+        if(!isLoaded(this.props.auth) ){
+            return (<div className="loader"> </div>)
+        }
         if (!this.props.isSignId) {
             return (
                 <LoginContainer />
@@ -60,7 +83,7 @@ class HomeContainer extends Component {
                     {/* <Search /> */}
 
                     <PeopleListContainer />
-                    <ChatBox receiver={this.props.receiver}/>
+                    <ChatBox receiver={this.props.receiver} star={this.handleStarPeople.bind(this)}/>
                 </div>
             );
         }
@@ -70,16 +93,24 @@ class HomeContainer extends Component {
 }
 const mapDispatchToProps = dispatch => {
     return({
-        setIsSignin: isSignin => dispatch(setSignin(isSignin))
+        setIsSignin: isSignin => dispatch(setSignin(isSignin)),
+        doSetStarPeople: isStar => dispatch(setStarPeople(isStar))
     })
 }
 export default compose(
     withFirebase,
-    connect(({ 
-        firebase: { auth, profile }, 
-        SetAuthentication: {isSignId}, 
-        SetReceive: {uid, name, avatar, statusConnection, statusIcon},
+    connect(
+        ({ 
+            firebase: { auth, profile }, 
+            SetAuthentication: {isSignId}, 
+            SetReceive: {uid, name, avatar, statusConnection, statusIcon, star},
+            SetListPeople: {filter} 
         }) => ({
-            auth, profile, isSignId, receiver: {uid, name, statusConnection, avatar, statusIcon}
-    }), mapDispatchToProps)
+            auth, 
+            profile, 
+            isSignId, 
+            receiver: {uid, name, statusConnection, avatar, statusIcon, star}, 
+            filter: filter
+        })
+        , mapDispatchToProps)
 )(HomeContainer)
