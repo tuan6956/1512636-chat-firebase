@@ -8,7 +8,7 @@ import Menu from '../component/Menu/menu'
 import Search from '../container/SearchPeopleContainer'
 
 import Firebase from 'firebase'
-import { setSignin, setStarPeople } from '../actions'
+import { setSignin } from '../actions'
 
 import LoginContainer from './LoginContainer'
 import ChatBox from '../component/chat/chat-box';
@@ -39,7 +39,6 @@ class HomeContainer extends Component {
     componentWillUnmount() {
         this.unregisterAuthObserver();
     }
-
     handleLogout = () => {
         const uid = this.props.auth.uid;;
         var lastOnlineRef = this.props.firebase.database().ref('users/' + uid + '/lastOnline');
@@ -48,35 +47,12 @@ class HomeContainer extends Component {
         lastOnlineRef.set(Firebase.database.ServerValue.TIMESTAMP);
         this.props.firebase.logout();
     };
-
-    handleStarPeople = () => {
-
-        this.props.doSetStarPeople(!this.props.receiver.star);
-
-        var me = this.props.auth.uid;
-        var receiveId = this.props.receiver.uid;
-
-        var timeNow = new Date().getTime();
-        
-        var starRef = this.props.firebase.database().ref('users/' + me + '/stars/' + receiveId);
-        if(this.props.receiver.star) {
-            console.log("remove star");
-            starRef.remove();
-        } else {
-            console.log("add star");
-            
-            starRef.set(timeNow);
-        }
-
-    }
-
     render() {
         if (!this.props.isSignId) {
             return (
                 <LoginContainer />
             );
         } else {
-            console.log(this.props.receiver);
             return (
                 <div className="container clearfix">
                     {/* <button onClick={() => this.props.firebase.logout()}>Sign-out</button > */}
@@ -84,7 +60,7 @@ class HomeContainer extends Component {
                     {/* <Search /> */}
 
                     <PeopleListContainer />
-                    <ChatBox receiver={this.props.receiver} star={this.handleStarPeople.bind(this)}/>
+                    <ChatBox receiver={this.props.receiver}/>
                 </div>
             );
         }
@@ -94,24 +70,16 @@ class HomeContainer extends Component {
 }
 const mapDispatchToProps = dispatch => {
     return({
-        setIsSignin: isSignin => dispatch(setSignin(isSignin)),
-        doSetStarPeople: isStar => dispatch(setStarPeople(isStar))
+        setIsSignin: isSignin => dispatch(setSignin(isSignin))
     })
 }
 export default compose(
     withFirebase,
-    connect(
-        ({ 
-            firebase: { auth, profile }, 
-            SetAuthentication: {isSignId}, 
-            SetReceive: {uid, name, avatar, statusConnection, statusIcon, star},
-            SetListPeople: {filter} 
+    connect(({ 
+        firebase: { auth, profile }, 
+        SetAuthentication: {isSignId}, 
+        SetReceive: {uid, name, avatar, statusConnection, statusIcon},
         }) => ({
-            auth, 
-            profile, 
-            isSignId, 
-            receiver: {uid, name, statusConnection, avatar, statusIcon, star}, 
-            filter: filter
-        })
-        , mapDispatchToProps)
+            auth, profile, isSignId, receiver: {uid, name, statusConnection, avatar, statusIcon}
+    }), mapDispatchToProps)
 )(HomeContainer)

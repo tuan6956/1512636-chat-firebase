@@ -10,34 +10,7 @@ import ScrollBotton from '../component/scrollboton'
 var dateFormat = require('dateformat');
 
 class ChatHistory extends Component {
-    isImageByType(url) {
-        return(url.toLowerCase().match(/\.(jpeg|jpg|gif|png)$/) != null);
-    }
-    isValidURL(string) {
-        var res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
-        if (res == null)
-          return false;
-        else
-          return true;
-      };
-    isImageByFetch(url, timeoutT) {
-        return new Promise(function(resolve, reject) {
-          var timeout = timeoutT || 5000;
-          var timer, img = new Image();
-          img.onerror = img.onabort = function() {
-              clearTimeout(timer);
-                reject("error");
-          };
-          img.onload = function() {
-               clearTimeout(timer);
-               resolve("success");
-          };
-          timer = setTimeout(function() {
-              reject("timeout");
-          }, timeout); 
-          img.src = url;
-        });
-    }
+   
     getDisplayDate(timestamp) {
         var today = new Date();
         today.setHours(0);
@@ -69,7 +42,7 @@ class ChatHistory extends Component {
             return <div>Loading...</div>
         }
         if (isEmpty(this.props.chats)) {
-            return <div>Users List Is Empty</div>
+            return null;
         }
         const myUid = this.props.auth.uid;
         const yourUid = this.props.receiver.uid;
@@ -89,22 +62,23 @@ class ChatHistory extends Component {
         console.log(this.props.firebase);
         const listChat = chats.map(chat => {
             var message = chat.message.trim();
-            var isImage = false;
-            var message;
+            var image = chat.imageUrl;
+            //var isImage = false;
+            //var message;
             
-            if(this.isImageByType(message) && this.isValidURL(message)) {
-                isImage = true;
-            }
+            // if(this.isImageByType(message) && this.isValidURL(message)) {
+            //     isImage = true;
+            // }
             if (chat.from === myUid) {
                 return (
                     <ChatSend
-                        key={chat.createAt} name={this.props.auth.displayName} message={chat.message} isImage={isImage} time={this.getDisplayDate(chat.createAt)}>
+                        key={chat.createAt} name={this.props.auth.displayName} message={chat.message} image={image} time={this.getDisplayDate(chat.createAt)}>
                     </ChatSend>
                 )
             } else {
                 return (
                     <ChatReceive
-                        key={chat.createAt} name={this.props.receiver.name} message={chat.message} isImage={isImage} time={this.getDisplayDate(chat.createAt)}>
+                        key={chat.createAt} name={this.props.receiver.name} message={chat.message} image={image} time={this.getDisplayDate(chat.createAt)}>
                     </ChatReceive>
                 )
             }

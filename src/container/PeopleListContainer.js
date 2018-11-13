@@ -22,7 +22,7 @@ class PeopleListContainer extends Component {
             return <div>Loading...</div>
         }
         if (isEmpty(this.props.users)) {
-            return <div>Users List Is Empty</div>
+            return null;
         }
         var myUser = this.props.userTemp[this.props.auth.uid];
         var lastUserActive = myUser.lastUserActive;

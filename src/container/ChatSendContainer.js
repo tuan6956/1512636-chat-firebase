@@ -32,6 +32,7 @@ class ChatHistory extends Component {
         }
         this.props.doStoreMessage('');
         chatRef.push(data);
+        
         var lastUserToActive = this.props.firebase.database().ref('users/' + from + '/lastUserActive/' + to);
         lastUserToActive.set(timeNow);
 
